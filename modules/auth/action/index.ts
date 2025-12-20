@@ -2,7 +2,6 @@
 
 import { db } from "@/lib/db";
 import { currentUser } from "@clerk/nextjs/server";
-import { ca } from "date-fns/locale";
 
 export const onBoardUser = async () => {
   try {

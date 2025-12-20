@@ -40,7 +40,7 @@ const Navbar = ({ userRole }: { userRole: string }) => {
             <ModeToggle />
             <SignedIn>
               {userRole === "ADMIN" && (
-                <Link href="/create-problem">
+                <Link href="/createProblem">
                   <Button variant={"outline"} size="default">
                     Create Problem
                   </Button>
