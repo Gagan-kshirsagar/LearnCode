@@ -12,9 +12,9 @@ const CreateProblem = async () => {
   const user = await currentUser();
   const { role } = await currentUserRole();
 
-  if (role !== UserRole.ADMIN) {
-    return redirect("/");
-  }
+  // if (role !== UserRole.ADMIN) {
+  //   return redirect("/");
+  // }
   return (
     <>
       <section className="flex flex-col items-center justify-center mx-4 my-4">
