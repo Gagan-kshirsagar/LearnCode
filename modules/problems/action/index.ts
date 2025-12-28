@@ -6,6 +6,7 @@ import {
   submitBatchToJudge0,
 } from "@/lib/judge0";
 import { currentUser } from "@clerk/nextjs/server";
+import { ca } from "date-fns/locale";
 import { revalidatePath } from "next/cache";
 
 export async function getAllProblems() {
@@ -238,4 +239,30 @@ export async function executeCode(
     },
   });
   return { success: true, data: submissionWithTestCases };
+}
+
+export async function getAllSubmissionByProblemId(problemId: string) {
+  try {
+    const user = await currentUser();
+    if (!user) {
+      throw new Error("User not authenticated");
+    }
+    const userId = await db.user.findUnique({
+      where: {
+        clerkId: user?.id,
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    const submissions = await db.submission.findMany({
+      where: {
+        problemId: problemId,
+        userId: userId?.id,
+      },
+    });
+
+    return { success: true, data: submissions };
+  } catch (error) {}
 }

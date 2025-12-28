@@ -13,7 +13,11 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Select, SelectItem } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ModeToggle } from "@/modules/home/components/modeToggle";
-import { getProblemById } from "@/modules/problems/action";
+import {
+  getAllSubmissionByProblemId,
+  getProblemById,
+} from "@/modules/problems/action";
+import SubmissionHistory from "@/modules/problems/components/SubmissionHistory";
 import { Editor } from "@monaco-editor/react";
 import {
   SelectContent,
@@ -92,6 +96,23 @@ const ProblemIdPage = ({ params }: any) => {
   //     </div>
   //   );
   // }
+
+  // useEffect(() => {
+  //   const fetchSubmissionHistory = async () => {
+  //     try {
+  //       const resolvedParams = await params;
+  //       const submissionHistory = await getAllSubmissionByProblemId(
+  //         resolvedParams?.id
+  //       );
+  //       if (submissionHistory?.success) {
+  //         setExecutionResponse(submissionHistory?.data);
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching submission history:", error);
+  //     }
+  //   };
+  //   fetchSubmissionHistory();
+  // }, [params]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -193,7 +214,7 @@ const ProblemIdPage = ({ params }: any) => {
                   </TabsList>
                   <TabsContent value="submissions" className="p-6">
                     <div className="text-center py-8 text-muted-foreground">
-                      No submissions yet.
+                      <SubmissionHistory submissions={[]} />
                     </div>
                   </TabsContent>
                   <TabsContent value="editorial" className="p-6">
