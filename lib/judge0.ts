@@ -1,4 +1,14 @@
 import axios from "axios";
+
+export function getLanguageName(languageId: number | string) {
+  const LANGUAGE_NAMES: { [key: number | string]: string } = {
+    54: "C++",
+    71: "Python",
+    63: "JavaScript",
+  };
+
+  return LANGUAGE_NAMES?.[languageId] || "Unknown";
+}
 export function getJudge0LanguageId(language: string): number | null {
   const languageMap: { [key: string]: number } = {
     c: 50,
