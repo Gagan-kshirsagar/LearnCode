@@ -31,6 +31,8 @@ import Link from "next/link";
 import React, { useMemo, useState } from "react";
 import { deleteProblemById } from "../action";
 import { toast } from "sonner";
+import CreatePlaylistModel from "./CreatePlaylistModel";
+import AddToPlaylistModel from "./AddToPlaylistModel";
 
 const ProblemsTable = ({
   problems,
@@ -128,6 +130,53 @@ const ProblemsTable = ({
     setIsAddToPlaylistModalOpen(true);
   };
 
+  const handleCreatePlaylist = async (data: any) => {
+    try {
+      const response = await fetch("api/playlist", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: data.name,
+          description: data.description,
+        }),
+      });
+      const result = await response.json();
+      if (result.success) {
+        setIsCreateModelOpen(false);
+        toast.success("Playlist created successfully");
+      } else {
+        throw new Error(result.error);
+      }
+    } catch (error: any) {
+      toast.error(error?.message || "Failed to create playlist");
+    }
+  };
+
+  const handleAddToPlaylist = async (
+    problemId: string | number,
+    playlistId: string | number
+  ) => {
+    try {
+      const response = await fetch("api/playlist/addProblems", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          problemId: problemId,
+          playlistId: playlistId,
+        }),
+      });
+      const result = await response.json();
+      if (result.success) {
+        setIsCreateModelOpen(false);
+        toast.success("Playlist created successfully");
+      } else {
+        throw new Error(result.error);
+      }
+    } catch (error: any) {
+      toast.error(error?.message || "Failed to add to playlist");
+    }
+  };
+
   return (
     <div className="w-full max-w-7xl mx-auto space-y-8 p-6">
       <div className="flex flex-col sm:flex-row justify-between items-center sm:items-center gap-4">
@@ -139,7 +188,7 @@ const ProblemsTable = ({
         </div>
         <Button onClick={() => setIsCreateModelOpen(true)} className="gap-2">
           <Plus className="h-4 w-4" />
-          Create Problem
+          Create Playlist
         </Button>
       </div>
 
@@ -320,6 +369,19 @@ const ProblemsTable = ({
           </div>
         </div>
       )}
+
+      <CreatePlaylistModel
+        isOpen={isCreateModelOpen}
+        onClose={() => setIsCreateModelOpen(false)}
+        onSubmit={handleCreatePlaylist}
+      />
+
+      <AddToPlaylistModel
+        isOpen={isAddToPlaylistModalOpen}
+        onClose={() => setIsAddToPlaylistModalOpen(false)}
+        onSubmit={handleAddToPlaylist}
+        problemId={selectedProblemId}
+      />
     </div>
   );
 };
