@@ -42,7 +42,7 @@ const Navbar = ({ userRole }: { userRole: string }) => {
               {userRole === "ADMIN" && (
                 <Link href="/createProblem">
                   <Button variant={"outline"} size="default">
-                    Create Problem
+                    Create Question Problem
                   </Button>
                 </Link>
               )}
